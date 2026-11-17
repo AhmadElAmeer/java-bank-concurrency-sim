@@ -1,0 +1,49 @@
+Each worker attempts 100000 random transfers; opening balance 1,000.00 per account.
+Every configuration runs 3 times after a warm-up; speed is the median, failures are counted.
+Cores available: 2
+
+bank     accounts  threads  median transf/s  deadlocks  money wrong ledger wrong    retries
+unsafe         10        1        1,807,917        0/3          0/3          0/3          -
+unsafe         10        2        1,660,248        0/3          3/3          3/3          -
+unsafe         10        4        1,501,847        0/3          3/3          3/3          -
+unsafe         10        8        1,013,638        0/3          3/3          3/3          -
+global         10        1       10,266,936        0/3          0/3          0/3          -
+global         10        2        5,882,171        0/3          0/3          0/3          -
+global         10        4        7,985,210        0/3          0/3          0/3          -
+global         10        8        5,875,088        0/3          0/3          0/3          -
+naive          10        1       10,077,958        0/3          0/3          0/3          -
+naive          10        2     (deadlocked)        3/3          0/3          0/3          -
+         e.g. worker-0 waits for ReentrantLock owned by worker-1; worker-1 waits for ReentrantLock owned by worker-0
+naive          10        4     (deadlocked)        3/3          0/3          0/3          -
+         e.g. worker-0 waits for ReentrantLock owned by worker-1; worker-1 waits for ReentrantLock owned by worker-0
+naive          10        8     (deadlocked)        3/3          0/3          0/3          -
+         e.g. worker-0 waits for ReentrantLock owned by worker-2; worker-1 waits for ReentrantLock owned by worker-2; worker-2 waits for ReentrantLock owned by worker-1
+ordered        10        1        7,102,769        0/3          0/3          0/3          -
+ordered        10        2        5,551,055        0/3          0/3          0/3          -
+ordered        10        4        5,009,480        0/3          0/3          0/3          -
+ordered        10        8        4,783,606        0/3          0/3          0/3          -
+trylock        10        1        9,877,513        0/3          0/3          0/3          -
+trylock        10        2        5,927,970        0/3          0/3          0/3         99
+trylock        10        4        6,016,170        0/3          0/3          0/3        715
+trylock        10        8        4,299,983        0/3          0/3          0/3      4,307
+unsafe       1000        1        1,778,260        0/3          0/3          0/3          -
+unsafe       1000        2        1,497,272        0/3          3/3          3/3          -
+unsafe       1000        4        1,509,684        0/3          3/3          3/3          -
+unsafe       1000        8        1,055,214        0/3          3/3          3/3          -
+global       1000        1       11,519,994        0/3          0/3          0/3          -
+global       1000        2        2,659,269        0/3          0/3          0/3          -
+global       1000        4       10,435,936        0/3          0/3          0/3          -
+global       1000        8        9,899,203        0/3          0/3          0/3          -
+naive        1000        1        8,754,915        0/3          0/3          0/3          -
+naive        1000        2        2,658,666        0/3          0/3          0/3          -
+naive        1000        4        2,503,173        0/3          0/3          0/3          -
+naive        1000        8     (deadlocked)        3/3          0/3          0/3          -
+         e.g. worker-0 waits for ReentrantLock owned by worker-4; worker-4 waits for ReentrantLock owned by worker-7; worker-7 waits for ReentrantLock owned by worker-4
+ordered      1000        1        9,814,815        0/3          0/3          0/3          -
+ordered      1000        2        2,273,087        0/3          0/3          0/3          -
+ordered      1000        4        2,487,982        0/3          0/3          0/3          -
+ordered      1000        8        2,621,324        0/3          0/3          0/3          -
+trylock      1000        1        8,013,727        0/3          0/3          0/3          -
+trylock      1000        2        3,682,317        0/3          0/3          0/3        108
+trylock      1000        4        3,120,259        0/3          0/3          0/3        650
+trylock      1000        8        2,297,377        0/3          0/3          0/3      1,415
