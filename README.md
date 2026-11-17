@@ -1,5 +1,7 @@
 # java-bank-concurrency-sim
 
+[![CI](https://github.com/AhmadElAmeer/java-bank-concurrency-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/AhmadElAmeer/java-bank-concurrency-sim/actions/workflows/ci.yml)
+
 A Java bank that moves money between accounts on many threads, implemented five ways, from broken to correct. It reproduces the two classic concurrency bugs (**lost updates** and **deadlock**), detects them automatically, and measures what each fix costs.
 
 ```
